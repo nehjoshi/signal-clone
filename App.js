@@ -5,11 +5,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './screens/Login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from './screens/Register';
+import Home from './screens/Home';
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
-  headerStyle: {backgroundColor: '#2C6BED'},
-  headerTitleStyle: {color: "#fff"},
+  headerStyle: { backgroundColor: '#2C6BED' },
+  headerTitleStyle: { color: "#fff" },
   headerTintColor: "#fff",
   headerTitleAlign: "center",
 }
@@ -18,9 +19,10 @@ export default function App() {
   return (
 
     <NavigationContainer>
-      <Stack.Navigator screenOptions = {globalScreenOptions}>
+      <Stack.Navigator screenOptions={globalScreenOptions}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );

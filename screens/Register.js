@@ -1,25 +1,53 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, } from 'react-native';
-import { Button, Input, Image } from 'react-native-elements';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { Input, Image } from 'react-native-elements';
+import { new_auth } from "../firebase.js";
 
-export default function Register() {
+export default function Register({ navigation }) {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [imageUrl, setImageUrl] = useState("");
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackTitle: 'Back',
+        })
+    }, [navigation])
+
+    const Submit = () => {
+        new_auth.createUserWithEmailAndPassword(email, password)
+            .then(authUser => {
+                // authUser.user.updateProfile({
+                //     displayName: name,
+                //     photoURL: imageUrl
+                // })
+                //     .then(() => {
+                //         navigation.navigate("Home")
+                //     })
+                //     .ca
+                alert("Successfully registered")
+            })
+            .catch(err => {
+                alert(err);
+            })
+    }
 
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <Text h3 style={{ marginBottom: 50 }}>Create a Signal Account</Text>
+            <Text style={{ marginBottom: 50, fontSize: 20 }}>Create a Signal Account</Text>
             <View style={styles.inputContainer}>
                 <Input placeholder="Full Name" autoFocus type="text" onChangeText={text => setName(text)} />
                 <Input placeholder="Email" type="email" onChangeText={text => setEmail(text)} />
-                <Input placeholder="Email" type="password" secureTextEntry onChangeText={text => setPassword(text)} />
-                
+                <Input placeholder="Password" type="password" secureTextEntry onChangeText={text => setPassword(text)} />
+                <Input placeholder="Profile Picture URL (Optional)" type="text" onChangeText={text => setImageUrl(text)} />
+                <View style={styles.button}>
+                    <Button title="Submit" onPress={Submit} />
+                </View>
+
             </View>
         </View>
     )
@@ -33,7 +61,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     inputContainer: {
-        width: 300
+        width: 300,
+        alignItems: "center",
     },
     button: {
         width: 200,

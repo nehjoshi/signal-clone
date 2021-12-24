@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import CustomListItem from '../components/CustomListItem';
 
-export default function Home() {
+export default function Home({ navigation }) {
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Signal',
+        })
+    }, [navigation])
+
     return (
         <SafeAreaView>
             <ScrollView>

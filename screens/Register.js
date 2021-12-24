@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { Input, Image } from 'react-native-elements';
-import { new_auth } from "../firebase.js";
+import { auth } from "../firebase.js";
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 export default function Register({ navigation }) {
 
@@ -18,17 +19,19 @@ export default function Register({ navigation }) {
     }, [navigation])
 
     const Submit = () => {
-        new_auth.createUserWithEmailAndPassword(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
             .then(authUser => {
-                // authUser.user.updateProfile({
-                //     displayName: name,
-                //     photoURL: imageUrl
-                // })
-                //     .then(() => {
-                //         navigation.navigate("Home")
-                //     })
-                //     .ca
-                alert("Successfully registered")
+                updateProfile(authUser.user, {
+                    displayName: name,
+                    photoURL: imageUrl ? imageUrl : "https://www.logolynx.com/images/logolynx/b4/b4ef8b89b08d503b37f526bca624c19a.jpeg"
+                })
+                    .then(() => {
+                        navigation.navigate("Home")
+                    })
+                    .catch(err => {
+                        alert(err.message);
+                    })
+                
             })
             .catch(err => {
                 alert(err);

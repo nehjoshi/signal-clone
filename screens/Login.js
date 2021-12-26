@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Input, Image, Button } from 'react-native-elements';
 import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login({ navigation }) {
 
@@ -12,7 +13,7 @@ export default function Login({ navigation }) {
 
     useLayoutEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user){
+            if (user) {
                 navigation.replace("Home");
             }
         });
@@ -21,7 +22,10 @@ export default function Login({ navigation }) {
     }, [])
 
     const signIn = () => {
-        
+        signInWithEmailAndPassword(auth, email, password)
+            .catch(err => {
+                alert(err.message);
+            })
 
     }
 
